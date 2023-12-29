@@ -790,7 +790,7 @@ def convert_and_upload_tiff_to_jpeg(
         output_jpeg_path (str): The path where the converted JPEG file will be stored in the bucket.
     """
     from io import BytesIO
-    
+
     try:
         # Initialize Google Cloud Storage client
         storage_client = storage.Client(project=project_id)
