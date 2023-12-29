@@ -779,9 +779,8 @@ def store_document_as_json(document, bucket_name: str, file_name: str):
 
 
 def convert_and_upload_tiff_to_jpeg(
-    project_id, bucket_name, 
-    input_tiff_path, 
-    output_jpeg_path):
+    project_id, bucket_name, input_tiff_path, output_jpeg_path
+):
     """
     Convert a TIFF file from Google Cloud Storage to a JPEG file and upload it back.
 
