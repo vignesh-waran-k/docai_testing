@@ -10,7 +10,6 @@ import operator
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Sequence, Tuple, Union
 from io import BytesIO
-
 from google.api_core.client_options import ClientOptions
 from google.cloud import documentai_v1beta3 as documentai
 from google.cloud import storage
@@ -827,7 +826,7 @@ def batch_process_documents_sample(
     processor_id: str,
     gcs_input_uri: str,
     gcs_output_uri: str,
-    processor_version_id: str = None,
+    processor_version_id: Optional[str] = None,
     timeout: int = 500,
 ) -> Any:
     """It will perform Batch Process on raw input documents
