@@ -783,7 +783,6 @@ def convert_and_upload_tiff_to_jpeg(
 ):
     """
     Convert a TIFF file from Google Cloud Storage to a JPEG file and upload it back.
-
     Args:
         project_id (str): The Google Cloud project ID.
         bucket_name (str): The name of the Google Cloud Storage bucket.
@@ -791,6 +790,7 @@ def convert_and_upload_tiff_to_jpeg(
         output_jpeg_path (str): The path where the converted JPEG file will be stored in the bucket.
     """
     from io import BytesIO
+    
     try:
         # Initialize Google Cloud Storage client
         storage_client = storage.Client(project=project_id)
