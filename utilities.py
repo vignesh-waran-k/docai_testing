@@ -779,7 +779,9 @@ def store_document_as_json(document, bucket_name: str, file_name: str):
     document_blob.upload_from_string(document, content_type="application/json")
 
 
-def convert_and_upload_tiff_to_jpeg(project_id, bucket_name, input_tiff_path, output_jpeg_path):
+def convert_and_upload_tiff_to_jpeg(
+    project_id, bucket_name, input_tiff_path, output_jpeg_path
+):
     """
     Convert a TIFF file from Google Cloud Storage to a JPEG file and upload it back.
 
@@ -790,6 +792,7 @@ def convert_and_upload_tiff_to_jpeg(project_id, bucket_name, input_tiff_path, ou
         output_jpeg_path (str): The path where the converted JPEG file will be stored in the bucket.
     """
     from io import BytesIO
+
     try:
         # Initialize Google Cloud Storage client
         storage_client = storage.Client(project=project_id)
