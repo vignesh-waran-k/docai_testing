@@ -46,8 +46,7 @@ def file_names(gs_file_path: str) -> Tuple[List[str], Dict[str, str]]:
     filenames = [
         filename.name
         for filename in list(
-            source_bucket.list_blobs(
-                prefix=(("/").join(gs_file_path.split("/")[3:])))
+            source_bucket.list_blobs(prefix=(("/").join(gs_file_path.split("/")[3:])))
         )
     ]
 
@@ -221,10 +220,7 @@ def copy_blob(
     source_bucket = storage_client.bucket(bucket_name)
     source_blob = source_bucket.blob(blob_name)
     destination_bucket = storage_client.bucket(destination_bucket_name)
-    source_bucket.copy_blob(
-        source_blob,
-        destination_bucket,
-        destination_blob_name)
+    source_bucket.copy_blob(source_blob, destination_bucket, destination_blob_name)
 
 
 def get_entity_metadata(
@@ -308,8 +304,7 @@ def json_to_dataframe(data: documentai.Document) -> pd.DataFrame:
                 print(f"Exception encountered: {e}")
                 continue
 
-            # If no properties were found for the entity, add it to the
-            # dataframe
+            # If no properties were found for the entity, add it to the dataframe
             if not has_properties:
                 try:
                     df = get_entity_metadata(df, entity)
@@ -425,8 +420,7 @@ def find_match(
 
     # Choose entity with highest IOU, IOU should be at least > 0.2
     matched_index = None
-    for index_iou in sorted(
-            index_iou_pairs, key=operator.itemgetter(1), reverse=True):
+    for index_iou in sorted(index_iou_pairs, key=operator.itemgetter(1), reverse=True):
         if index_iou[1] > 0.2:  # Threshold
             matched_index = index_iou[0]
             break
@@ -526,8 +520,7 @@ def compare_pre_hitl_and_post_hitl_output(
     common_entities = set(file1_entities).intersection(set(file2_entities))
     exclude_entities = []
     for entity in common_entities:
-        if file1_entities.count(
-                entity) > 1 or file2_entities.count(entity) > 1:
+        if file1_entities.count(entity) > 1 or file2_entities.count(entity) > 1:
             exclude_entities.append(entity)
     for entity in exclude_entities:
         common_entities.remove(entity)
@@ -735,9 +728,7 @@ def create_pdf_bytes_from_json(gt_json: dict) -> Tuple[bytes, List[Any]]:
             return pdf_file.getvalue()
 
     document = documentai.Document.from_json(json.dumps(gt_json))
-    synthesized_images = [
-        decode_image(
-            page.image.content) for page in document.pages]
+    synthesized_images = [decode_image(page.image.content) for page in document.pages]
     pdf_bytes = create_pdf_from_images(synthesized_images)
 
     return pdf_bytes, synthesized_images
@@ -787,9 +778,7 @@ def store_document_as_json(document, bucket_name: str, file_name: str):
     document_blob.upload_from_string(document, content_type="application/json")
 
 
-def convert_and_upload_tiff_to_jpeg(
-    project_id, bucket_name, input_tiff_path, output_jpeg_path
-):
+def convert_and_upload_tiff_to_jpeg(project_id, bucket_name, input_tiff_path, output_jpeg_path):
     """
     Convert a TIFF file from Google Cloud Storage to a JPEG file and upload it back.
 
@@ -800,7 +789,6 @@ def convert_and_upload_tiff_to_jpeg(
         output_jpeg_path (str): The path where the converted JPEG file will be stored in the bucket.
     """
     from io import BytesIO
-
     try:
         # Initialize Google Cloud Storage client
         storage_client = storage.Client(project=project_id)
@@ -823,8 +811,14 @@ def convert_and_upload_tiff_to_jpeg(
         blob = bucket.blob(output_jpeg_path)
         blob.upload_from_file(jpeg_file, content_type="image/jpeg")
 
+    except storage.exceptions.GoogleCloudError as gce:
+        print("Google Cloud Storage error: ", gce)
+        return False
+    except OSError as ose:
+        print("File operation error: ", ose)
+        return False
     except Exception as e:
-        print("An error occurred: ", e)
+        print("An unexpected error occurred: ", e)
         return False
 
     return True
