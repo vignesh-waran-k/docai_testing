@@ -9,13 +9,13 @@ import json
 import operator
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Sequence, Tuple, Union
+
+import pandas as pd
 from google.api_core.client_options import ClientOptions
 from google.cloud import documentai_v1beta3 as documentai
 from google.cloud import storage
-from google.cloud.exceptions import Conflict
-from google.cloud.exceptions import NotFound
+from google.cloud.exceptions import Conflict, NotFound
 from pandas import DataFrame
-import pandas as pd
 from PIL import Image
 
 pd.options.mode.chained_assignment = None  # default='warn'
@@ -778,7 +778,10 @@ def store_document_as_json(document, bucket_name: str, file_name: str):
     document_blob.upload_from_string(document, content_type="application/json")
 
 
-def convert_and_upload_tiff_to_jpeg(project_id, bucket_name, input_tiff_path, output_jpeg_path):
+def convert_and_upload_tiff_to_jpeg(
+    project_id, bucket_name, 
+    input_tiff_path, 
+    output_jpeg_path):
     """
     Convert a TIFF file from Google Cloud Storage to a JPEG file and upload it back.
 
