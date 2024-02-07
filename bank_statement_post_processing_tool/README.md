@@ -12,5 +12,9 @@ Below are the steps the tool will follow :
 <img src="./images/image2.png" width=800 height=400></img>
 
 # Input Details
-
-* **Project name**:
+.
+* **Project name**: Enter the google cloud project name.
+* **Project_Id**: Enter the google cloud project id.
+* **Processor_Id**: Enter the bank statement processor id.
+* **gcs_input_dir**: Enter the path of files which have to be parsed.
+* **gcs_output_dir**: 
